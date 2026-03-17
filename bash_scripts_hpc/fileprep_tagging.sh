@@ -9,5 +9,4 @@
 #SBATCH --output=tagging_%j.out  # This captures your print statements/progress bar
 
 module purge
-module load openmpi/gcc/5.0.9
-
+$SCRATCH/offsets_testing_triwild/triwild-compute-wn/build/compute_wn $SCRATCH/linear_results/ $SCRATCH/out_fix/ $SCRATCH/offsets_testing_triwild/tagged_mshs_redone/

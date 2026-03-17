@@ -55,7 +55,21 @@ int main(int argc, char *argv[])
     {
         if (entry.path().extension() == ".msh")
         {
-            msh_nums.insert(std::stoi(entry.path().stem().string()));
+            try
+            {
+                msh_nums.insert(std::stoi(entry.path().stem().string()));
+            }
+            catch (const std::invalid_argument &e)
+            {
+                // This catches things like .DS_Store or non-numeric folders
+                std::cerr << "Skipping non-numeric file: " << entry.path() << std::endl;
+                continue;
+            }
+            catch (const std::out_of_range &e)
+            {
+                std::cerr << "Filename number too large: " << entry.path() << std::endl;
+                continue;
+            }
         }
     }
 
@@ -65,7 +79,21 @@ int main(int argc, char *argv[])
     {
         if (entry.path().extension() == ".obj")
         {
-            obj_nums.insert(std::stoi(entry.path().stem().string()));
+            try
+            {
+                obj_nums.insert(std::stoi(entry.path().stem().string()));
+            }
+            catch (const std::invalid_argument &e)
+            {
+                // This catches things like .DS_Store or non-numeric folders
+                std::cerr << "Skipping non-numeric file: " << entry.path() << std::endl;
+                continue;
+            }
+            catch (const std::out_of_range &e)
+            {
+                std::cerr << "Filename number too large: " << entry.path() << std::endl;
+                continue;
+            }
         }
     }
 
