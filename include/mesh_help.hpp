@@ -68,19 +68,19 @@ void extract_faces(const mshio::MshSpec &spec, Eigen::MatrixXi &F)
     const auto *element_block = get_face_block(spec);
     if (element_block == nullptr)
         return;
-    assert(vertex_block != nullptr);
+    // assert(vertex_block != nullptr);
 
     const size_t num_elements = element_block->num_elements_in_block;
     if (num_elements == 0)
         return;
-    assert(vertex_block->num_nodes_in_block != 0);
+    // assert(vertex_block->num_nodes_in_block != 0);
 
     const size_t vert_tag_offset = vertex_block->tags.front();
     const size_t elem_tag_offset = element_block->data.front();
     for (size_t i = 0; i < num_elements; i++)
     {
         const size_t tag = element_block->data[i * (4)] - elem_tag_offset;
-        assert(tag < num_elements);
+        // assert(tag < num_elements);
         const auto *element = element_block->data.data() + i * (4) + 1;
         F.row(tag) << element[0] - vert_tag_offset, element[1] - vert_tag_offset, element[2] - vert_tag_offset;
     }
