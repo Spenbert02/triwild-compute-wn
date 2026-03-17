@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     {
         if (entry.path().extension() == ".msh")
         {
-            msh_nums.insert(std::stoi(entry.path().stem()));
+            msh_nums.insert(std::stoi(entry.path().stem().string()));
         }
     }
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     {
         if (entry.path().extension() == ".obj")
         {
-            obj_nums.insert(std::stoi(entry.path().stem()));
+            obj_nums.insert(std::stoi(entry.path().stem().string()));
         }
     }
 
