@@ -62,16 +62,17 @@ int main(int argc, char *argv[])
             catch (const std::invalid_argument &e)
             {
                 // This catches things like .DS_Store or non-numeric folders
-                std::cerr << "Skipping non-numeric file: " << entry.path() << std::endl;
+                // std::cerr << "Skipping non-numeric file: " << entry.path() << std::endl;
                 continue;
             }
             catch (const std::out_of_range &e)
             {
-                std::cerr << "Filename number too large: " << entry.path() << std::endl;
+                // std::cerr << "Filename number too large: " << entry.path() << std::endl;
                 continue;
             }
         }
     }
+    std::cout << "found " << msh_nums.size() << " valid .msh files" << std::endl;
 
     // collect .obj file nums
     std::set<int> obj_nums;
@@ -86,16 +87,17 @@ int main(int argc, char *argv[])
             catch (const std::invalid_argument &e)
             {
                 // This catches things like .DS_Store or non-numeric folders
-                std::cerr << "Skipping non-numeric file: " << entry.path() << std::endl;
+                // std::cerr << "Skipping non-numeric file: " << entry.path() << std::endl;
                 continue;
             }
             catch (const std::out_of_range &e)
             {
-                std::cerr << "Filename number too large: " << entry.path() << std::endl;
+                // std::cerr << "Filename number too large: " << entry.path() << std::endl;
                 continue;
             }
         }
     }
+    std::cout << "found " << obj_nums.size() << " valid .obj files" << std::endl;
 
     // intersect to get paired files
     std::set<int> paired_nums;
