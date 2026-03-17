@@ -1,0 +1,9 @@
+[submodule "external/MshIO"]
+	path = external/MshIO
+	url = https://github.com/qnzhou/MshIO.git
+[submodule "external/eigen"]
+	path = external/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+[submodule "external/libigl"]
+	path = external/libigl
+	url = https://github.com/libigl/libigl.git
