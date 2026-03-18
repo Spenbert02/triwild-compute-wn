@@ -12,10 +12,17 @@
 
 namespace fs = std::filesystem;
 
+/**
+ * @param arg[0]
+ * @param arg[1] path to input .msh dir
+ * @param arg[2] path to input .obj dir
+ * @param arg[3] path to outpt tagged .msh dir
+ * @param arg[4] (optional) max file size (input .msh and .obj) in MB
+ */
 int main(int argc, char *argv[])
 {
     // Basic argument check
-    if (argc < 4)
+    if (argc != 5)
     {
         std::cerr << "Usage: " << argv[0] << " <mesh_dir> <curve_dir> <output_dir>" << std::endl;
         return 1;
@@ -24,29 +31,41 @@ int main(int argc, char *argv[])
     // Assign arguments to variables
     std::string mesh_dir = argv[1];
     fs::path mesh_dir_path(mesh_dir);
+    std::cout << "Processing meshes from: " << mesh_dir << std::endl;
+
     std::string curve_dir = argv[2];
     fs::path curve_dir_path(curve_dir);
+    std::cout << "Using curves from: " << curve_dir << std::endl;
+
     std::string output_dir = argv[3];
     fs::path output_dir_path(output_dir);
-    std::cout << "Processing meshes from: " << mesh_dir << std::endl;
-    std::cout << "Using curves from: " << curve_dir << std::endl;
     std::cout << "Saving results to: " << output_dir << std::endl;
 
-    // make sure directories exist
+    unsigned long max_bytes;
+    if (argc == 5)
+    {
+        max_bytes = std::stoi(argv[4]) * 1000000;
+        std::cout << "Max acceptable file size: " << max_bytes / 1000000.0 << "MB" << std::endl;
+    }
+
+    // make sure directories exist and, if given, completed nums is .txt file
     if (!fs::is_directory(mesh_dir))
     {
         std::cerr << "Mesh directory [" << mesh_dir << "] does not exist." << std::endl;
+        return 1;
     }
     if (!fs::is_directory(curve_dir))
     {
         std::cerr << "Curve directory [" << curve_dir << "] does not exist." << std::endl;
+        return 1;
     }
     if (!fs::is_directory(output_dir))
     {
         std::cerr << "Output directory [" << output_dir << "] does not exist." << std::endl;
+        return 1;
     }
 
-    // kinda debugging
+    // print num threads in use
     std::cout << "Running with " << omp_get_max_threads() << " threads." << std::endl;
 
     // collect .msh file nums
@@ -55,6 +74,10 @@ int main(int argc, char *argv[])
     {
         if (entry.path().extension() == ".msh")
         {
+            if (entry.file_size() > max_bytes)
+            {
+                continue;
+            }
             try
             {
                 msh_nums.insert(std::stoi(entry.path().stem().string()));
@@ -72,7 +95,7 @@ int main(int argc, char *argv[])
             }
         }
     }
-    std::cout << "found " << msh_nums.size() << " valid .msh files" << std::endl;
+    std::cout << "Found " << msh_nums.size() << " valid .msh files" << std::endl;
 
     // collect .obj file nums
     std::set<int> obj_nums;
@@ -80,6 +103,10 @@ int main(int argc, char *argv[])
     {
         if (entry.path().extension() == ".obj")
         {
+            if (entry.file_size() > max_bytes)
+            {
+                continue;
+            }
             try
             {
                 obj_nums.insert(std::stoi(entry.path().stem().string()));
@@ -97,13 +124,14 @@ int main(int argc, char *argv[])
             }
         }
     }
-    std::cout << "found " << obj_nums.size() << " valid .obj files" << std::endl;
+    std::cout << "Found " << obj_nums.size() << " valid .obj files" << std::endl;
 
     // intersect to get paired files
     std::set<int> paired_nums;
     std::set_intersection(msh_nums.begin(), msh_nums.end(),
                           obj_nums.begin(), obj_nums.end(),
                           std::inserter(paired_nums, paired_nums.begin()));
+    std::cout << "Found " << paired_nums.size() << " valid pairs." << std::endl;
 
     // load .msh and .obj, compute wn, tag, write .msh
     int curr_data = 0;

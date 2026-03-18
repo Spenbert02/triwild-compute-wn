@@ -11,7 +11,7 @@ set(EIGEN3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/eigen")
 add_subdirectory(external/eigen)
 
 # Define the executable and its source files
-add_executable(compute_wn src/main.cpp)
+add_executable(compute_wn src/compute_wn.cpp)
 target_link_libraries(compute_wn PRIVATE mshio::mshio Eigen3::Eigen)
 target_include_directories(compute_wn PRIVATE include)
 

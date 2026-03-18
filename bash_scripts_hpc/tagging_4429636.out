@@ -1,6 +1,6 @@
 Processing meshes from: /scratch/seb9449/linear_results/
 Using curves from: /scratch/seb9449/out_fix/
-Saving results to: /scratch/seb9449/offsets_testing_triwild/tagged_mshs_redone/
+Saving results to: /scratch/seb9449/offsets_testing_triwild/tagged_mshs/
 Running with 32 threads.
 found 19686 valid .msh files
 found 19686 valid .obj files
