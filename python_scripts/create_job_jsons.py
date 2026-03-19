@@ -29,10 +29,12 @@ def create_jsons(input_dir):
                 raise Exception(f"mesh {msh_path} does not exist")
 
             # offset around object
+            output1_subdir = subdir / "singlebody"
+            output1_subdir.mkdir(parents=False, exist_ok=True)
             json1_config = {
                 "application": "topological_offset",
                 "input": msh_name,
-                "output": f"{i_str}_singlebody_out",
+                "output": f"singlebody/{i_str}_singlebody_out",
                 "offset_tags": [[0, 1]],
                 "offset_tag_val": [[0, 2]],
                 "target_distance": OFFSET_TARGET_DIST,
@@ -42,17 +44,17 @@ def create_jsons(input_dir):
                 "save_vtu": False,
                 "DEBUG_output": False
             }
-            json1_subdir = subdir / "singlebody"
-            json1_subdir.mkdir(parents=False, exist_ok=True)
-            json1_path = json1_subdir / f"{i_str}_singlebody.json"
+            json1_path = subdir / f"{i_str}_singlebody.json"
             with open(json1_path, "w") as f:
                 json.dump(json1_config, f, indent=4)
 
             # offset around boundary
+            output2_subdir = subdir / "twobody"
+            output2_subdir.mkdir(parents=False, exist_ok=True)
             json2_config = {
                 "application": "topological_offset",
                 "input": msh_name,
-                "output": f"{i_str}_twobody_out",
+                "output": f"twobody/{i_str}_twobody_out",
                 "offset_tags": [[0, 0], [0, 1]],
                 "offset_tag_val": [[0, 2]],
                 "target_distance": OFFSET_TARGET_DIST,
@@ -62,13 +64,13 @@ def create_jsons(input_dir):
                 "save_vtu": False,
                 "DEBUG_output": False
             }
-            json2_subdir = subdir / "twobody"
-            json2_subdir.mkdir(parents=False, exist_ok=True)
-            json2_path = json2_subdir / f"{i_str}_twobody.json"
+
+            json2_path = subdir / f"{i_str}_twobody.json"
             with open(json2_path, "w") as f:
                 json.dump(json2_config, f, indent=4)
 
             bar()
+    print(f"Successfully created {len(subdirs) * 2} json configs.")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 """
-NOT TESTED
+TESTED LOCALLY
 """
 
 import argparse
@@ -18,23 +18,10 @@ def run_single_json(wmtk_app_exe, json_path):
     return json_path, result.returncode, result.stderr, duration
 
 
-def run_offsets(meshes_dir, wmtk_app_exe, completed_nums_path):
-    # collect completed nums
-    completed_nums = set()
-    try:
-        with open(completed_nums_path, 'r') as f:
-            for line in f:
-                line = line.strip()
-                if line:
-                    completed_nums.add(int(line))
-    except FileNotFoundError:
-        print(f"Error: completed pairs file [{completed_nums_path}] does not exist.")
-        return
-    
+def run_offsets(meshes_dir, wmtk_app_exe):    
     # collect jsons
     meshes_path = Path(meshes_dir)
     json_files_to_run = []
-    num_skipped = 0
     for data_dir in meshes_path.glob("data_*"):
         if not data_dir.is_dir():
             continue
@@ -43,23 +30,19 @@ def run_offsets(meshes_dir, wmtk_app_exe, completed_nums_path):
             id = int(data_dir.name.split('_')[1])
         except ValueError:
             continue
-
-        if id in completed_nums:
-            num_skipped += 1
-            continue
         
-        singlebody_json = data_dir / "singlebody" / f"{id}_singlebody.json"
+        singlebody_json = data_dir / f"{id}_singlebody.json"
         if singlebody_json.exists():
             json_files_to_run.append(singlebody_json)
         else:
             print(f"Warning: json [{str(singlebody_json)}] does not exist")
 
-        twobody_json = data_dir / "twobody" / f"{id}_twobody.json"
+        twobody_json = data_dir / f"{id}_twobody.json"
         if twobody_json.exists():
             json_files_to_run.append(twobody_json)
         else:
             print(f"Warning: json [{str(twobody_json)}] does not exist")
-    print(f"Found {len(json_files_to_run)} total JSON configurations to process ({num_skipped} already completed)")
+    print(f"Found {len(json_files_to_run)} total JSON configurations to process")
 
     # run in parallel
     max_workers = os.cpu_count()
@@ -93,6 +76,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run offsets on tagged triwild dataset")
     parser.add_argument("-m", "--meshesdir", required=True, help="Input .msh file directory (subdirs each with tagged (0/1) 2D triangle meshes and subdir jsons)")
     parser.add_argument("-e", "--wmtk_app_exe", required=True, help="Path to wmtk_app executable")
-    parser.add_argument("-c", "--completed_nums", required=True, help="Path to .txt file containing completed data nums (to be skipped)")
     args = parser.parse_args()
-    run_offsets(args.meshesdir, args.wmtk_app_exe, args.completed_nums)
+    run_offsets(args.meshesdir, args.wmtk_app_exe)
