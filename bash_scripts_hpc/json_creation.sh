@@ -6,7 +6,7 @@
 #SBATCH --mem=64G
 #SBATCH --time=1:00:00
 #SBATCH --account=torch_pr_870_general
-#SBATCH --output=tagging_%j.out  # This captures your print statements/progress bar
+#SBATCH --output=json_%j.out  # This captures your print statements/progress bar
 
 module purge
 module load anaconda3/2025.06
