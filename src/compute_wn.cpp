@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
         add_face_vertices(out_spec, V.rows(), V);
         add_faces(out_spec, F.rows(), F);
         add_scalar_face_attribute(out_spec, "tag_0", tags);
-        save_msh(out_spec, output_msh_path.string(), false);
+        save_msh(out_spec, output_msh_path.string(), true);
 
         // terminal comms
         auto end_time = std::chrono::high_resolution_clock::now();
