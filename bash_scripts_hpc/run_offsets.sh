@@ -13,4 +13,5 @@ module load anaconda3/2025.06
 source /share/apps/anaconda3/2025.06/etc/profile.d/conda.sh
 export PATH_TO_ENV=/home/seb9449/.conda/envs/offset_test_triwild_venv
 source activate $PATH_TO_ENV
-python -u $SCRATCH/offsets_testing_triwild/triwild-compute-wn/run_offsets.py -m $SCRATCH/offsets_testing_triwild/tagged_mshs_under10mb -e $WMTK_APP
+export LD_LIBRARY_PATH=$SCRATCH/gmp_install/lib:$LD_LIBRARY_PATH
+python -u $SCRATCH/offsets_testing_triwild/triwild-compute-wn/run_offsets.py -m $SCRATCH/offsets_testing_triwild/tagged_mshs_under_10mb -e $SCRATCH/offsets_testing_triwild/wildmeshing-toolkit/build/
