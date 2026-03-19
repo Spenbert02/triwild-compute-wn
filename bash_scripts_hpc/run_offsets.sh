@@ -2,8 +2,8 @@
 #SBATCH --job-name=mesh_tagging
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=12
-#SBATCH --mem=64G
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=128G
 #SBATCH --time=1:00:00
 #SBATCH --account=torch_pr_870_general
 #SBATCH --output=tagging_%j.out  # This captures your print statements/progress bar
