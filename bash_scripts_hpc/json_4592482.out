@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/scratch/seb9449/offsets_testing_triwild/triwild-compute-wn/python_scripts/create_job_jsons.py", line 80, in <module>
+    create_jsons(args.meshesdir)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/scratch/seb9449/offsets_testing_triwild/triwild-compute-wn/python_scripts/create_job_jsons.py", line 16, in create_jsons
+    subdirs = [d for d in base_dir.iterdir() if d.is_dir() and d.name.startswith("data_")]
+                          ~~~~~~~~~~~~~~~~^^
+  File "/home/seb9449/.conda/envs/offset_test_triwild_venv/lib/python3.13/pathlib/_local.py", line 575, in iterdir
+    with os.scandir(root_dir) as scandir_it:
+         ~~~~~~~~~~^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/scratch/seb9449/offsets_testing_triwild/tagged_mshs_under10mb'
