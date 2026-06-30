@@ -48,7 +48,7 @@ def main():
     # collect jsons
     jsons_to_run = []
     print("0", end="")  # terminal comms
-    for i, subdir in enumerate(mesh_dir_path.glob("model_*")):
+    for i, subdir in enumerate(mesh_dir_path.glob("data_*")):
         if i % 100 == 0:  # terminal comms
             print(f"\r{i}\t", end="")
 
