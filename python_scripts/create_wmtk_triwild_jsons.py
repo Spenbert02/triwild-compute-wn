@@ -28,7 +28,7 @@ def main():
             json_data = {
                 "application": "triwild",
                 "input": [str(obj_path)],
-                "output": f"model_{model_id}_out",
+                "output": str(subdir / f"model_{model_id}_out"),
                 "num_threads": 0,
                 "DEBUG_output": False,
                 "throw_on_fail": True
