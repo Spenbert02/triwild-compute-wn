@@ -13,7 +13,7 @@ run_list_fpath = f"/scratch/seb9449/offsets_testing_triwild/triwild-compute-wn/b
 slurm_script_fpath = f"/scratch/seb9449/offsets_testing_triwild/triwild-compute-wn/bash_scripts_hpc/wmtk_triwild_array/wmtk_triwild_submit_array.slurm"
 logs_dir = f"/scratch/seb9449/offsets_testing_triwild/triwild-compute-wn/bash_scripts_hpc/wmtk_triwild_array/logs"
 
-RUN_MODE = UNLOGGED
+RUN_MODE = ALL
 CHUNK_SIZE = 5000
 MAX_CHUNKS = 1
 
