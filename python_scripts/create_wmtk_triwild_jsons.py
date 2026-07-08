@@ -1,7 +1,7 @@
 from pathlib import Path
 import json
 
-msh_dir_path = Path("/scratch/seb9449/offsets_testing_triwild/tagged_mshs_under_10mb/")
+msh_dir_path = Path("/scratch/seb9449/offsets_testing_triwild/tagged_mshs_under_10mb")
 data_dir_path = Path("/scratch/seb9449/out_fix")
 
 def main():
@@ -31,7 +31,8 @@ def main():
                 "output": str(subdir / f"model_{model_id}_out"),
                 "num_threads": 0,
                 "DEBUG_output": False,
-                "throw_on_fail": True
+                "throw_on_fail": True,
+                "stop_energy": 10
             }
             with open(json_path, "w") as f:
                 json.dump(json_data, f, indent=4)

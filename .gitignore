@@ -1,2 +1,5 @@
 build/
 .python-version
+data/
+misc.txt
+**/__pycache__
