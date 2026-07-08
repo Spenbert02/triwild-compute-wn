@@ -74,9 +74,11 @@ def main():
         #     for id in ids[key]:
         #         print(f"\t{id},")
     print("other", ":", len(ids["other"]))
-    # print("\t", end="")
-    # for id in ids["other"]:
-    #     print(f" {id},", end="")
+    print("\t", end="")
+    for i, id in enumerate(ids["other"]):
+        if i > 10:
+            break
+        print(f" {id},", end="")
     print()
 
 
