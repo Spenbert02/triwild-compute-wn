@@ -28,11 +28,13 @@ def main():
             json_data = {
                 "application": "triwild",
                 "input": [str(obj_path)],
-                "output": str(subdir / f"model_{model_id}_out"),
                 "num_threads": 0,
                 "DEBUG_output": False,
                 "throw_on_fail": True,
-                "stop_energy": 10
+                "stop_energy": 10,
+                "output": str(subdir / "wmtk_triwild" / f"model_{model_id}_out"),
+                "log_file": str(subdir / "wmtk_triwild" / f"model_{model_id}_log.log"),
+                "report": str(subdir / "wmtk_triwild" / f"model_{model_id}_report.json")
             }
             with open(json_path, "w") as f:
                 json.dump(json_data, f, indent=4)
