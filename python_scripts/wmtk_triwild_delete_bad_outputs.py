@@ -38,6 +38,8 @@ def main():
         if msh_path.exists():
             msh_path.unlink(missing_ok=False)
             deleted_counts["files"] += 1
+    
+    print(f"Deleted {deleted_counts['files']} files across {deleted_counts['dirs']} directories.")
         
 
 if __name__ == "__main__":
