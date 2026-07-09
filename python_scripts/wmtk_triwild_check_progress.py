@@ -22,6 +22,7 @@ def main():
     ids["critical_log"] = []
     ids["bad_energy"] = []
     ids["timeout"] = []
+    ids["orientation"] = []
 
     count = 0
     print(f"progress: {count}\t", end="")
@@ -69,6 +70,10 @@ def main():
                     break
                 if "DUE TO TIME LIMIT" in line:
                     ids["timeout"].append(model_id)
+                    found = True
+                    break
+                if "Tets with different orientations in the input!" in line:
+                    ids["orientation"].append(model_id)
                     found = True
                     break
             if found:
