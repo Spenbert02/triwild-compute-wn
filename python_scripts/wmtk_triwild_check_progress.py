@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import re
 
 msh_dir_path = Path("/scratch/seb9449/offsets_testing_triwild/tagged_mshs_under_10mb/")
@@ -19,6 +20,7 @@ def main():
     ids["other"] = []
     ids["not_run"] = []
     ids["critical_log"] = []
+    ids["bad_energy"] = []
 
     count = 0
     print(f"progress: {count}\t", end="")
@@ -44,8 +46,15 @@ def main():
 
         # if output .msh exists, success
         out_msh_path = model_dir / f"wmtk_triwild" / f"model_{model_id}_out.msh"
-        if out_msh_path.exists():
-            ids["success"].append(model_id)
+        out_report_path = model_dir / f"wmtk_triwild" / f"model_{model_id}_report.json"
+        if out_msh_path.exists() and out_report_path.exists():
+            report = None
+            with open(out_report_path, "r") as f:
+                report = json.load(f)
+            if report["max_energy"] < 10:
+                ids["success"].append(model_id)
+            else:
+                ids["bad_energy"].append(model_id)
             continue
 
         # check log err file to see what happened
