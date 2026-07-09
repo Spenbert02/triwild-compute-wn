@@ -4,7 +4,7 @@ import subprocess
 
 ALL = 0  # run every single model
 # UNSUCCESSFUL = 1  # run every model that hasn't already succeeded
-LOGGED = 1  # run every model that has already been run
+LOGGED_FAILED = 1  # run every model that has already been run and failed
 UNLOGGED = 2  # run every model that hasn't already been run (based off logs)
 # TIMEOUT_OOM = 3
 
@@ -13,7 +13,7 @@ run_list_fpath = f"/scratch/seb9449/offsets_testing_triwild/triwild-compute-wn/b
 slurm_script_fpath = f"/scratch/seb9449/offsets_testing_triwild/triwild-compute-wn/bash_scripts_hpc/wmtk_triwild_array/wmtk_triwild_submit_array.slurm"
 logs_dir = f"/scratch/seb9449/offsets_testing_triwild/triwild-compute-wn/bash_scripts_hpc/wmtk_triwild_array/logs"
 
-RUN_MODE = ALL
+RUN_MODE = LOGGED_FAILED
 CHUNK_SIZE = 5000
 MAX_CHUNKS = 1
 
@@ -63,39 +63,13 @@ def main():
 
         if (RUN_MODE == UNLOGGED) and (model_id in already_run):
             continue
-        elif (RUN_MODE == LOGGED) and (model_id not in already_run):
+        elif (RUN_MODE == LOGGED_FAILED) and (model_id not in already_run):
             continue
         
-        # input_obj_path = subdir / f"model_{model_id}.obj"
-        # if not input_obj_path.exists():
-        #     print(f"WARNING: no obj for model {model_id}")
-        #     continue
+        output_msh_path = subdir / f"wmtk_triwild" / f"model_{model_id}_out.msh"
+        if output_msh_path.exists() and (RUN_MODE != ALL):
+            continue
 
-        # output_msh_path = subdir / f"remeshing_test{REMESHING_TEST_NUM}" / f"model_{model_id}_out.msh"
-        # if output_msh_path.exists() and (RUN_MODE != ALL):
-        #     continue
-
-        # if RUN_MODE == TIMEOUT_OOM:
-        #     log_num = get_most_recent_log(model_id)
-        #     if log_num is not None:
-        #         err_path = Path(logs_dir) / f"model_{model_id}_({log_num}).err"
-        #         with open(str(err_path), "r") as f:
-        #             lines = f.readlines()
-        #             include = False
-        #             for line in lines:
-        #                 if "DUE TO TIME LIMIT" in line:
-        #                     include = True
-        #                     break
-        #                 if "OOM Killed" in line:
-        #                     include = True
-        #                     break
-        #             if include:
-        #                 json_path = subdir / f"remeshing_test{REMESHING_TEST_NUM}" / f"remeshing_test{REMESHING_TEST_NUM}_{model_id}.json"
-        #                 if not json_path.exists():
-        #                     print(f"WARNING: json {str(json_path)} does not exist")
-        #                 else:
-        #                     jsons_to_run.append(str(json_path))
-        # else:
         json_path = subdir / f"wmtk_triwild" / f"wmtk_triwild_{model_id}.json"
         if not json_path.exists():
             print(f"WARNING: json {str(json_path)} does not exist")

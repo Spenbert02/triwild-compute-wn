@@ -24,6 +24,7 @@ def main():
     ids["timeout"] = []
     ids["orientation"] = []
     ids["full_inversion"] = []
+    ids["seg_fault"] = []
 
     count = 0
     print(f"progress: {count}\t", end="")
@@ -79,6 +80,10 @@ def main():
                     break
                 if "Input mesh is fully inverted! This should not happen... Might be a bug." in line:
                     ids["full_inversion"].append(model_id)
+                    found = True
+                    break
+                if "Segmentation fault" in line:
+                    ids["seg_fault"].append(model_id)
                     found = True
                     break
             if found:
