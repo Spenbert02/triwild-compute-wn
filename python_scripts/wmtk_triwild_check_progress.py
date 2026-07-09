@@ -86,6 +86,10 @@ def main():
                     ids["seg_fault"].append(model_id)
                     found = True
                     break
+                if "Max energy is too large." in line:
+                    ids["bad_energy"].append(model_id)
+                    found = True
+                    break
             if found:
                 continue
         
