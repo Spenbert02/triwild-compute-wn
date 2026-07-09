@@ -21,6 +21,7 @@ def main():
     ids["not_run"] = []
     ids["critical_log"] = []
     ids["bad_energy"] = []
+    ids["timeout"] = []
 
     count = 0
     print(f"progress: {count}\t", end="")
@@ -64,6 +65,10 @@ def main():
             for line in err_f.readlines():
                 if "CRITICAL: Accessing uninitialized Logger instance" in line:
                     ids["critical_log"].append(model_id)
+                    found = True
+                    break
+                if "DUE TO TIME LIMIT" in line:
+                    ids["timeout"].append(model_id)
                     found = True
                     break
             if found:
