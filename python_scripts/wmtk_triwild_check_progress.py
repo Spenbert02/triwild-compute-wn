@@ -23,6 +23,7 @@ def main():
     ids["bad_energy"] = []
     ids["timeout"] = []
     ids["orientation"] = []
+    ids["full_inversion"] = []
 
     count = 0
     print(f"progress: {count}\t", end="")
@@ -74,6 +75,10 @@ def main():
                     break
                 if "Tets with different orientations in the input!" in line:
                     ids["orientation"].append(model_id)
+                    found = True
+                    break
+                if "Input mesh is fully inverted! This should not happen... Might be a bug." in line:
+                    ids["full_inversion"].append(model_id)
                     found = True
                     break
             if found:
